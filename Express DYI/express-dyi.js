@@ -1,15 +1,7 @@
 const http = require('http')
 
-const port = 3000
-
-let routes = {}
-
-const sendResponse = (contentType, data, res) => {
-  res.statusCode = 200
-  res.setHeader('Content-Type', contentType)
-  res.write(data)
-  res.end()
-}
+const expressStatic = require('./express-static')
+const expressDynamic = require('./express-dynamic')
 
 const sendError = (errorCode, res) => {
   res.statusCode = errorCode
@@ -18,53 +10,42 @@ const sendError = (errorCode, res) => {
   res.end()
 }
 
-const register = (route, method, requestHandler) => {
+const create = () => {
 
-  if (routes[route] === undefined) {
-    routes[route] = {}
+  const server = http.createServer((req, res) => {
+    let success = expressStatic.sendStatic(req, res)
+    if (!success) {
+      success = expressDynamic.sendDynamic(req, res)
+      if (!success) {
+        return sendError(404, res)
+      }
+    }
+  })
+
+  const static = (dir) => {
+    expressStatic.setStaticDir(dir)
   }
 
-  routes[route][method] = requestHandler
+  const get = (route, requestHandler) => {
+    expressDynamic.register(route, 'GET', requestHandler)
+  }
+
+  const post = (route, requestHandler) => {
+    expressDynamic.register(route, 'POST', requestHandler)
+  }
+
+  const start = (port) => {
+    server.listen(port, () => {
+      console.log(`Server listening on port: ${port}`)
+    })
+  }
+
+  return {
+    static,
+    get,
+    post,
+    start
+  }
 }
 
-register('/hello', 'GET', (req, res) => {
-  sendResponse('text/plain', 'Hello You.', res)
-})
-
-register('/time', 'GET', (req, res) => {
-  sendResponse('text/html', Date(), res)
-})
-
-register('/time', 'POST', (req, res) => {
-  sendResponse('text/plain', 'Time updated.', res)
-})
-
-register('/about', 'GET', (req, res) => {
-  sendResponse('application/json', JSON.stringify({
-    name: 'Wolf',
-    age: 26,
-    location: 'Austria'
-  }), res)
-})
-
-const server = http.createServer((req, res) => {
-
-  let url = req.url
-  let method = req.method
-
-  let routeMethods = routes[url]
-  if (routeMethods === undefined) {
-    return sendError(404, res)
-  }
-
-  let requestHandler = routeMethods[method]
-  if (requestHandler === undefined) {
-    return sendError(404, res)
-  }
-
-  requestHandler(req, res)
-})
-
-server.listen(port, () => {
-  console.log(`Server running on port: ${port}.`)
-})
+module.exports = create
