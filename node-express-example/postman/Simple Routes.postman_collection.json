@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "8430f422-c6cc-43ea-9019-1401a6981240",
+		"name": "Simple Routes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Hello",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26683dcb-14bc-4735-84e4-ca2f19d368a6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/hello",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Time",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "041d07a6-71c2-48aa-8ec3-8c7743aeb92d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/time",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"time"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Time",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5df3d986-8298-4059-a3e8-f114b7b56b7a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/time",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"time"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET About",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "44cc165b-eb4c-4f48-a053-3d559e8c5b3e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/about",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"about"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
